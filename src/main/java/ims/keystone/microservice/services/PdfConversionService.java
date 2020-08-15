@@ -1,5 +1,6 @@
 package ims.keystone.microservice;
 
+import ims.imtd.apps.pdf.commands.CreatePdfCommandMessage;
 import ims.imtd.core.adapters.message.ImtdCoreMessage;
 import java.io.File;
 import org.jodconverter.DocumentConverter;
@@ -34,20 +35,26 @@ public class PdfConversionService {
 			try {
 	        	log.debug("First Time");
 				firstTime = false;
+				sqsService = new AwsSQSMessageService(config.getSqsProcessQueue());
+
 			} catch (Exception e) {
 				log.debug("Something went wrong");
 			}
+
 		}
 
  		log.trace("step one: retrieve message from the SQS queue and delete message");
 		//ImtdCoreMessage message = sqsService.receive();
 		//String message = sqsService.receive();
             // Autowire eventually ??? 
-		AwsSQSMessageService sqsService = new AwsSQSMessageService(config.getSqsProcessQueue());
+		//sqsService = new AwsSQSMessageService(config.getSqsProcessQueue());
 		log.trace(sqsService.toString());
 		ImtdCoreMessage message = sqsService.receive();
+		CreatePdfCommandMessage message1 = (CreatePdfCommandMessage)message; 
+		log.trace("i got here");
+		log.trace(message1.getDocumentDownloadUrl());
         		
-		// if (message != null) {
+		if (message != null) {
 			log.trace("step two: retrieve S3Object from bucket");
 			//S3Object originalS3Object = s3Service.retrieveFromS3BucketLanding(filename);
 
@@ -79,6 +86,6 @@ public class PdfConversionService {
 			}
 
 			log.trace("step four: send file/message to finished s3 bucket");
-		//}	
+		}	
 	}
 }

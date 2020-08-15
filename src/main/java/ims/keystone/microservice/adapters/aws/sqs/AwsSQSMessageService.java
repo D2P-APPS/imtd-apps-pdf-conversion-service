@@ -1,6 +1,7 @@
 package ims.keystone.microservice;
 
 import com.google.gson.Gson;
+import ims.imtd.apps.pdf.commands.CreatePdfCommandMessage;
 import ims.imtd.core.adapters.message.ImtdCoreMessage;
 import java.util.List;
 import software.amazon.awssdk.services.sqs.SqsClient;
@@ -49,7 +50,7 @@ public class AwsSQSMessageService {
 
     public ImtdCoreMessage receive() {
         System.out.println("AwsSQSMessageService::receive");
-        //ImtdCoreMessage message = null;
+        CreatePdfCommandMessage message = new CreatePdfCommandMessage();
 
         try {
             GetQueueUrlRequest queueUrlRequest = GetQueueUrlRequest.builder()
@@ -66,20 +67,38 @@ public class AwsSQSMessageService {
 
             List<Message> messageRaw = sqsClient.receiveMessage(messageRequest).messages();
             System.out.println("messageRaw is " + messageRaw + " and its size is " + messageRaw.size());
-            Message msg = messageRaw.get(0);
+            final Message msg = messageRaw.get(0);
             msg.getClass();
             System.out.println("message class is " + msg.getClass());
-            //Message msg1 = new Message();
-            int i = msg.hashCode();
-            //String msgstring = msg.getReceiptHandle();
+
+			// msg.getBody() won't compile, so perform some string manipulation instead
+			String ddu = msg.toString();
+			int dduStart = ddu.indexOf("documentDownloadUrl");
+			ddu = ddu.substring(dduStart+22);
+			int dduEnd = ddu.indexOf(",");
+			ddu = ddu.substring(0,dduEnd-1);
+			System.out.println("DocDownloadUrl is " + ddu);
+
+			String pdu = msg.toString();
+			int pduStart = pdu.indexOf("signedUrlPdfUpload");
+			pdu = pdu.substring(pduStart+21);
+			int pduEnd = pdu.indexOf("}");
+			pdu = pdu.substring(0,pduEnd-1);
+			System.out.println("PdfUploadUrl is " + pdu);
+
+			message.setDocumentDownloadUrl(ddu);
+
+           //Message msg1 = new Message();
+            //int i = msg.hashCode();
+            //String msgstring = msg.getBody();
 
             //message = new Gson().fromJson(msgstring, ImtdCoreMessage.class);    
 
         } catch (Exception e) {
             System.out.println("Error when receiving message from queue" + e.getMessage());
         }
-        return null;
-        //return message;
+        //return null;
+        return message;
 	}
 
 }
