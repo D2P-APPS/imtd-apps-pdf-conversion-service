@@ -1,0 +1,3 @@
+# DO NOT use tabs for indentation, use spaces
+sqsProcessQueue: pdf-conversion-input-queue
+sqsStatusQueue: pdf-conversion-status-queue

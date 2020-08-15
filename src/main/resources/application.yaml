@@ -1,0 +1,63 @@
+# DO NOT use tabs for indentation, use spaces
+
+env: dev
+
+info:
+  contact:
+    email:
+  description: 'This is the IMS PDF Conversion Service'
+  name: ${spring.application.name}
+  organization:
+    name: IMS
+    manager: IMTD
+
+logging:
+  level:
+    org.springframework: ERROR
+    ims.keystone.microservice: TRACE
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+    file: "%d %p %c{1.} [%t] %m%n"
+  file: pdf-conversion.log
+
+management:
+  endpoint:
+    health:
+      showdetails: always
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    git:
+      mode: full
+  security:
+    enabled: true
+    
+server:
+  port: 8082
+
+spring:
+  application:
+    name: PDF Conversion
+  data:
+    jpa:
+      show-sql: true
+    rest:
+      base-path: /pdfconversion
+
+jodconverter:
+  local:
+    enabled: true
+    format-options:
+      html:
+        store:
+          TEXT:
+            FilterOptions: EmbedImages
+
+      xhtml:
+        store:
+          TEXT:
+            FilterOptions: EmbedImages
+    
