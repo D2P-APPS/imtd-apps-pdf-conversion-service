@@ -3,6 +3,10 @@ package ims.keystone.microservice;
 import ims.imtd.apps.pdf.commands.CreatePdfCommandMessage;
 import ims.imtd.core.adapters.message.ImtdCoreMessage;
 import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import org.jodconverter.DocumentConverter;
 import org.jodconverter.document.DefaultDocumentFormatRegistry;
 import org.jodconverter.document.DocumentFormat;
@@ -25,6 +29,9 @@ public class PdfConversionService {
 	//@Autowired
 	private AwsSQSMessageService sqsService;
 
+	//@Autowired
+	private AwsS3Service s3Service;
+
 	private boolean firstTime = true;
 
 	public void process() {
@@ -36,7 +43,7 @@ public class PdfConversionService {
 	        	log.debug("First Time");
 				firstTime = false;
 				sqsService = new AwsSQSMessageService(config.getSqsProcessQueue());
-
+				s3Service = new AwsS3Service("hello"); //???
 			} catch (Exception e) {
 				log.debug("Something went wrong");
 			}
@@ -56,7 +63,17 @@ public class PdfConversionService {
         		
 		if (message != null) {
 			log.trace("step two: retrieve S3Object from bucket");
+
 			//S3Object originalS3Object = s3Service.retrieveFromS3BucketLanding(filename);
+
+			try {
+
+				// get the file from S3 using presigned URL
+				s3Service.downloadFile(message1.getDocumentDownloadUrl());
+
+			} catch (IOException e) {
+				log.debug("Something went wrong with S3 get file");
+			}
 
 			log.trace("step three: step convert file to a pdf");
 			final DocumentFormat targetFormat =
