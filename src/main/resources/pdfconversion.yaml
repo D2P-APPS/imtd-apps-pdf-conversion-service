@@ -1,3 +1,5 @@
 # DO NOT use tabs for indentation, use spaces
 sqsProcessQueue: pdf-conversion-input-queue
 sqsStatusQueue: pdf-conversion-status-queue
+#sqsAccountId is optional, if not specified, queues are assumed to exist in you local account/mission
+#sqsAccountId: 123456789123

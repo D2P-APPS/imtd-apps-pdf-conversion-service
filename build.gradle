@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'ims.keystone.microservice'
+group = 'ims.imtd'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -24,13 +24,14 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.apache.tika:tika-parsers:1.24.1'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'commons-io:commons-io:2.6'
     implementation 'ims.imtd:imtd-apps-core-messaging:0.1.0-SNAPSHOT'
     implementation 'ims.imtd:imtd-apps-pdf-service-api:0.1.0-SNAPSHOT'
-    implementation 'software.amazon.awssdk:aws-sdk-java:2.13.9'
+    implementation 'software.amazon.awssdk:aws-sdk-java:2.13.28'
 	implementation 'org.jodconverter:jodconverter-spring-boot-starter:4.2.3'
 	implementation 'org.jodconverter:jodconverter-core:4.2.3'
 	implementation 'org.jodconverter:jodconverter-local:4.2.3'

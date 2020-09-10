@@ -1,17 +1,17 @@
-package ims.keystone.microservice;
+package ims.imtd.apps.pdf.adapters.aws.sqs.poller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import ims.imtd.apps.pdf.services.PdfConversionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import lombok.extern.slf4j.Slf4j;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-@EnableScheduling
 @Component
+@EnableScheduling
 @Slf4j
 public class PdfConversionSQSPollerAdapter {
 	@Autowired

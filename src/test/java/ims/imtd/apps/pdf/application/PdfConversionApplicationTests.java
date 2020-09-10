@@ -1,4 +1,4 @@
-package ims.keystone.microservice;
+package ims.imtd.apps.pdf.application;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
