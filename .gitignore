@@ -3,4 +3,5 @@ build/
 
 # Log file
 *.log
+*.gz
 

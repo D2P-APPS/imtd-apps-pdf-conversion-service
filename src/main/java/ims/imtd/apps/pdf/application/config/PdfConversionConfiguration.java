@@ -5,13 +5,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @Component
 @ConfigurationProperties
-@Data
-@EqualsAndHashCode(callSuper=false)
+@Getter
 @PropertySource("classpath:pdfconversion.yaml")
 public class PdfConversionConfiguration {
 

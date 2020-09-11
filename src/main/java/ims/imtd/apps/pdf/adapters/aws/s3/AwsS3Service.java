@@ -22,7 +22,7 @@ public class AwsS3Service {
 	public String uploadFile(File file, String uploadFileURL) {
 		log.debug("uploadFileURL is : {}", uploadFileURL);
 
-		String response;
+		String response = null;
 		HttpURLConnection con = null;
 
 		try {
